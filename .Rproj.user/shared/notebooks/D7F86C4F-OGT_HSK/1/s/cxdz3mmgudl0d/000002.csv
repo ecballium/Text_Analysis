@@ -1,0 +1,1 @@
+"0","prob_ind <- which(is.na(words_counts_HSK$HSK1)&is.na(words_counts_HSK$HSK2)&is.na(words_counts_HSK$HSK3)&is.na(words_counts_HSK$HSK4)&is.na(words_counts_HSK$HSK5)&is.na(words_counts_HSK$HSK6)&is.na(words_counts_HSK$HSK7))"

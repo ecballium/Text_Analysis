@@ -1,0 +1,4 @@
+"0","#A <- readLines(con <- file(""test_eng_utf.txt"", encoding = ""UTF-8""))"
+"0","#C <- readLines(con <- file(""test_ch_utf.txt"", encoding = ""UTF-8""))"
+"0","#C1 <- readLines(con <- file(""ch1.txt"", encoding = ""UTF-8""))"
+"0","T <- readLines(con <- file(""ogt_utf.txt"", encoding = ""UTF-8""))"

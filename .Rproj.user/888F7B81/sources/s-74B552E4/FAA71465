@@ -1,0 +1,24 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1522156780980.000,
+    "dirty" : false,
+    "encoding" : "x_Chinese-Eten",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "FAA71465",
+    "lastKnownWriteTime" : 1522258795,
+    "last_content_update" : -2147483648,
+    "path" : "~/Medycyna/Clinical School/Word count/Scripts/Stoplist_Analysis_Full.R",
+    "project_path" : "Scripts/Stoplist_Analysis_Full.R",
+    "properties" : {
+        "cursorPosition" : "61,110",
+        "notebook_format" : "html_document",
+        "scrollLine" : "49",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 9,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

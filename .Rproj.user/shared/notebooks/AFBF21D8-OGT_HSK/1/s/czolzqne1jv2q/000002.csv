@@ -1,0 +1,26 @@
+"0","```r
+
+for (i in seq_along(HSK1_characters)){
+  words_counts_HSK$HSK1[grepl(HSK1_characters[i], words_counts_HSK$words)] <- 1
+}
+
+for (i in seq_along(HSK2_characters)){
+  words_counts_HSK$HSK2[grepl(HSK2_characters[i], words_counts_HSK$words)] <- 1
+}
+
+for (i in seq_along(HSK3_characters)){
+  words_counts_HSK$HSK3[grepl(HSK3_characters[i], words_counts_HSK$words)] <- 1
+}
+
+for (i in seq_along(HSK4_characters)){
+  words_counts_HSK$HSK4[grepl(HSK4_characters[i], words_counts_HSK$words)] <- 1
+}
+
+for (i in seq_along(HSK5_characters)){
+  words_counts_HSK$HSK5[grepl(HSK5_characters[i], words_counts_HSK$words)] <- 1
+}
+
+for (i in seq_along(HSK6_characters)){
+  words_counts_HSK$HSK6[grepl(HSK6_characters[i], words_counts_HSK$words)] <- 1
+}
+```"

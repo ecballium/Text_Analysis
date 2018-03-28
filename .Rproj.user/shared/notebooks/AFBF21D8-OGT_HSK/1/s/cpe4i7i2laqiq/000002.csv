@@ -1,0 +1,9 @@
+"0","```r
+words_counts_HSK <- words_counts
+words_counts_HSK$HSK1 <- NA
+words_counts_HSK$HSK2 <- NA
+words_counts_HSK$HSK3 <- NA
+words_counts_HSK$HSK4 <- NA
+words_counts_HSK$HSK5 <- NA
+words_counts_HSK$HSK6 <- NA
+```"

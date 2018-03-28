@@ -1,0 +1,1 @@
+"0","ggplot(data=words_counts_HSK, aes(x=HSK_max, y=Freq, fill = HSK_min)) + geom_bar(stat=""identity"") + ggtitle(""Cumulative word frequency in HSK levels"")"

@@ -1,0 +1,3 @@
+"0","#Best so far"
+"0","ggplot(words_counts, aes(Freq)) +"
+"0","geom_histogram(binwidth = 50) + scale_y_log10()"

@@ -1,0 +1,2 @@
+"0","#Sys.setlocale(locale = ""Chinese"") #Choose Chinese"
+"0","#Sys.setlocale() #Revert back to original when finished"

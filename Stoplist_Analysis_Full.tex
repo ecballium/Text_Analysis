@@ -1,0 +1,547 @@
+\documentclass{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+# Stoplist Analysis
+
+## Setup
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(dplyr)}
+\hlkwd{library}\hlstd{(ggplot2)}
+\hlkwd{library}\hlstd{(RColorBrewer)}
+
+\hlkwd{Sys.setlocale}\hlstd{(}\hlkwc{locale} \hlstd{=} \hlstr{"Chinese"}\hlstd{)} \hlcom{#Choose Chinese}
+\end{alltt}
+\begin{verbatim}
+## [1] "LC_COLLATE=Chinese (Simplified)_People's Republic of China.936;LC_CTYPE=Chinese (Simplified)_People's Republic of China.936;LC_MONETARY=Chinese (Simplified)_People's Republic of China.936;LC_NUMERIC=C;LC_TIME=Chinese (Simplified)_People's Republic of China.936"
+\end{verbatim}
+\begin{alltt}
+\hlkwd{source}\hlstd{(}\hlstr{"C:/Users/Ania/Documents/Medycyna/Clinical School/Word count/Scripts/Helpful_Functions.R"}\hlstd{)}
+
+\hlcom{#coul = brewer.pal(4, "BuPu")}
+\hlcom{#coul = colorRampPalette(coul)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+## Test case
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{#N <- 3}
+\hlcom{#test <- data.frame(words = c("a", "b", "c", "a", "b", "b", "d"),}
+\hlcom{#                   freq = c(5, 3, 4, 2, 3, 8, 2), }
+\hlcom{#                   doc = c(rep("i", 3), rep("ii", 2), rep("iii", 2)))}
+
+
+\hlcom{#test <- data.frame(words = c("a", "b", "c", "e", "a", "b", "b", "d"),}
+\hlcom{#                   freq = c(3, 5, 4, 1, 2, 3, 8, 2), }
+\hlcom{#                   doc = c(rep("i", 4), rep("ii", 2), rep("iii", 2)))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+## Data Preprocessing
+
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{T} \hlkwb{<-} \hlkwd{readLines}\hlstd{(con} \hlkwb{<-} \hlkwd{file}\hlstd{(}\hlstr{"C:/Users/Ania/Documents/Medycyna/Clinical School/Word count/ogt_utf.txt"}\hlstd{,} \hlkwc{encoding} \hlstd{=} \hlstr{"UTF-8"}\hlstd{))}
+\hlcom{#T <- readLines(con <- file("ogt_utf.txt", encoding = "UTF-8"))}
+
+\hlstd{N} \hlkwb{<-} \hlnum{10}
+\hlstd{Tp} \hlkwb{<-} \hlkwd{divideCharVector}\hlstd{(T, N)}
+\end{alltt}
+\begin{verbatim}
+##  [1] 37047 45101 42835 43772 43144 47679 44919 43315 44702 39191
+\end{verbatim}
+\begin{alltt}
+\hlstd{counts_df} \hlkwb{<-} \hlkwd{data.frame}\hlstd{()}
+
+\hlcom{#for (i in 1)\{}
+\hlkwa{for} \hlstd{(i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlstd{N)\{}
+  \hlstd{c} \hlkwb{<-} \hlkwd{table}\hlstd{(}\hlkwd{unlist}\hlstd{(}\hlkwd{strsplit}\hlstd{(Tp[[i]],} \hlkwc{split}\hlstd{=}\hlstr{""}\hlstd{)))}
+  \hlstd{c} \hlkwb{<-} \hlstd{c[}\hlkwd{order}\hlstd{(c,} \hlkwc{decreasing} \hlstd{=} \hlnum{TRUE}\hlstd{)]}
+  \hlstd{c} \hlkwb{<-} \hlkwd{as.data.frame}\hlstd{(c,} \hlkwc{stringsAsFactors} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+  \hlstd{c}\hlopt{$}\hlstd{doc} \hlkwb{<-} \hlstd{i}
+  \hlkwd{colnames}\hlstd{(c)} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"words"}\hlstd{,} \hlstr{"freq"}\hlstd{,} \hlstr{"doc"}\hlstd{)}
+  \hlstd{counts_df} \hlkwb{<-} \hlkwd{rbind}\hlstd{(counts_df, c)}
+\hlstd{\}}
+
+
+\hlstd{remove_char_groups} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"[[:blank:]]"}\hlstd{,}\hlstr{"[[:punct:]]"}\hlstd{,} \hlstr{"[[:digit:]]"}\hlstd{,} \hlstr{"[A-z]"}\hlstd{)}
+\hlkwd{print.listof}\hlstd{(}\hlkwd{weliminate_cont}\hlstd{(remove_char_groups, counts_df}\hlopt{$}\hlstd{words[}\hlnum{1}\hlopt{:}\hlnum{100}\hlstd{]),} \hlkwc{locale} \hlstd{=} \hlkwd{locale}\hlstd{(}\hlkwc{encoding} \hlstd{=} \hlstr{"UTF-8"}\hlstd{))}
+\end{alltt}
+\begin{verbatim}
+## Component 1 :
+## [1] "¦Ì<U+00C4>"
+## 
+## Component 2 :
+## [1] "<U+0147><U+00BB>"
+## 
+## Component 3 :
+## [1] "¨¢<U+00CB>"
+## 
+## Component 4 :
+## [1] "<U+0118><U+00C7>"
+## 
+## Component 5 :
+## [1] "<U+00CB><U+0171>"
+## 
+## Component 6 :
+## [1] "<U+02DB><U+00BB>"
+## 
+## Component 7 :
+## [1] "¨¢<U+00D6>"
+## 
+## Component 8 :
+## [1] "<U+00C7><U+0142>"
+## 
+## Component 9 :
+## [1] "<U+00D4>¨²"
+## 
+## Component 10 :
+## [1] "<U+00CB>y"
+## 
+## Component 11 :
+## [1] "¨®<U+0110>"
+## 
+## Component 12 :
+## [1] "<U+010C><U+00CB>"
+## 
+## Component 13 :
+## [1] "<U+00B8><U+00F6>"
+## 
+## Component 14 :
+## [1] "<U+0150>a"
+## 
+## Component 15 :
+## [1] "¡Á<U+0139>"
+## 
+## Component 16 :
+## [1] "<U+0154>¡ä"
+## 
+## Component 17 :
+## [1] "¨¦<U+010E>"
+## 
+## Component 18 :
+## [1] "¦Ì<U+02DD>"
+## 
+## Component 19 :
+## [1] "<U+013E>¨ª"
+## 
+## Component 20 :
+## [1] "<U+017C>¡ä"
+## 
+## Component 21 :
+## [1] "<U+0147><U+02DB>"
+## 
+## Component 22 :
+## [1] "¡ä¨®"
+## 
+## Component 23 :
+## [1] "<U+010E><U+00C2>"
+## 
+## Component 24 :
+## [1] "<U+00CE><U+0147>"
+## 
+## Component 25 :
+## [1] "<U+00BB><U+0105>"
+## 
+## Component 26 :
+## [1] "<U+0154><U+010F>"
+## 
+## Component 27 :
+## [1] "<U+00D6><U+00AE>"
+## 
+## Component 28 :
+## [1] "<U+010C><U+00BB>"
+## 
+## Component 29 :
+## [1] "¦Ì<U+0158>"
+## 
+## Component 30 :
+## [1] "¨ª¡¤"
+## 
+## Component 31 :
+## [1] "<U+00C4><U+0103>"
+## 
+## Component 32 :
+## [1] "<U+0102>¡ä"
+## 
+## Component 33 :
+## [1] "¦Ì<U+0102>"
+## 
+## Component 34 :
+## [1] "<U+0118><U+00D6>"
+## 
+## Component 35 :
+## [1] "<U+00BB>¨¢"
+## 
+## Component 36 :
+## [1] "<U+0118>¡À"
+## 
+## Component 37 :
+## [1] "<U+0154>¡Â"
+## 
+## Component 38 :
+## [1] "¦Ì¨²"
+## 
+## Component 39 :
+## [1] "<U+00CB>¦Ì"
+## 
+## Component 40 :
+## [1] "<U+0102><U+00BB>"
+## 
+## Component 41 :
+## [1] "<U+00D6><U+00C2>"
+## 
+## Component 42 :
+## [1] "<U+0105>y"
+## 
+## Component 43 :
+## [1] "<U+00C4><U+00C7>"
+## 
+## Component 44 :
+## [1] "<U+013E>-"
+## 
+## Component 45 :
+## [1] "<U+0142><U+010E>"
+## 
+## Component 46 :
+## [1] "<U+00B6><U+013D>"
+## 
+## Component 47 :
+## [1] "<U+0147><U+015E>"
+## 
+## Component 48 :
+## [1] "¡Á<U+00DF>"
+## 
+## Component 49 :
+## [1] "<U+0105><U+00CB>"
+## 
+## Component 50 :
+## [1] "<U+017C><U+015E>"
+## 
+## Component 51 :
+## [1] "<U+015F>¨®"
+## 
+## Component 52 :
+## [1] "<U+0142><U+00F6>"
+## 
+## Component 53 :
+## [1] "<U+00B6><U+0159>"
+## 
+## Component 54 :
+## [1] "<U+015F>¨¹"
+## 
+## Component 55 :
+## [1] "<U+015F><U+0102>"
+## 
+## Component 56 :
+## [1] "<U+0102><U+00C7>"
+## 
+## Component 57 :
+## [1] "<U+00C7>¡ã"
+## 
+## Component 58 :
+## [1] "<U+0143>¨®"
+## 
+## Component 59 :
+## [1] "¡Á¨®"
+## 
+## Component 60 :
+## [1] "¨§¨§"
+## 
+## Component 61 :
+## [1] "<U+010C><U+0104>"
+## 
+## Component 62 :
+## [1] "<U+0110>|"
+## 
+## Component 63 :
+## [1] "¦Ì<U+0103>"
+## 
+## Component 64 :
+## [1] "¨®<U+00D6>"
+## 
+## Component 65 :
+## [1] "<U+0150><U+00C2>"
+## 
+## Component 66 :
+## [1] "¡ä<U+010F>"
+## 
+## Component 67 :
+## [1] "¡ã<U+00AE>"
+## 
+## Component 68 :
+## [1] "<U+0102><U+0139>"
+## 
+## Component 69 :
+## [1] "<U+0102><U+0107>"
+## 
+## Component 70 :
+## [1] "<U+0106><U+0111>"
+## 
+## Component 71 :
+## [1] "<U+00B6><U+00D4>"
+## 
+## Component 72 :
+## [1] "<U+0154>¨ª"
+## 
+## Component 73 :
+## [1] "¨¦¨ª"
+## 
+## Component 74 :
+## [1] "<U+0142>¦Ì"
+## 
+## Component 75 :
+## [1] "¨¦<U+016F>"
+## 
+## Component 76 :
+## [1] "<U+00CE><U+015E>"
+## 
+## Component 77 :
+## [1] "<U+0110><U+00C4>"
+## 
+## Component 78 :
+## [1] "¡¤<U+02D8>"
+## 
+## Component 79 :
+## [1] "<U+013E><U+02DB>"
+## 
+## Component 80 :
+## [1] "¨¦<U+00AB>"
+## 
+## Component 81 :
+## [1] "<U+0105><U+00AB>"
+## 
+## Component 82 :
+## [1] "<U+0118><U+00C2>"
+## 
+## Component 83 :
+## [1] "¡Á<U+00D4>"
+## 
+## Component 84 :
+## [1] "¦Ì<U+0154>"
+## 
+## Component 85 :
+## [1] "<U+0143><U+0170>"
+## 
+## Component 86 :
+## [1] "<U+0147>a"
+## 
+## Component 87 :
+## [1] "<U+00D6><U+00BB>"
+## 
+## Component 88 :
+## [1] "<U+00BB>¡ã"
+## 
+## Component 89 :
+## [1] "<U+010E><U+00EB>"
+## 
+## Component 90 :
+## [1] "<U+0147><U+0143>"
+\end{verbatim}
+\begin{alltt}
+\hlstd{counts_df} \hlkwb{<-} \hlstd{counts_df[}\hlkwd{weliminate}\hlstd{(remove_char_groups, counts_df}\hlopt{$}\hlstd{words),]}
+
+\hlstd{test} \hlkwb{<-} \hlstd{counts_df}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+
+
+
+## Calculations
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{#Calculate Doc_size (sum freq within a doc)}
+\hlstd{test} \hlkwb{<-} \hlstd{test} \hlopt{%>%} \hlkwd{group_by}\hlstd{(doc)} \hlopt{%>%} \hlkwd{mutate}\hlstd{(}\hlkwc{Doc_size} \hlstd{=} \hlkwd{sum}\hlstd{(freq))}
+
+\hlcom{#Calculate Prob_word_in_doc (freq/Doc_size)}
+\hlstd{test} \hlkwb{<-} \hlstd{test} \hlopt{%>%} \hlkwd{group_by}\hlstd{(words)} \hlopt{%>%} \hlkwd{mutate}\hlstd{(}\hlkwc{Prob_word_in_doc} \hlstd{= freq}\hlopt{/}\hlstd{Doc_size)}
+
+\hlcom{#Calculate MP ((sum of prob)/N)}
+\hlstd{test} \hlkwb{<-} \hlstd{test} \hlopt{%>%} \hlkwd{group_by}\hlstd{(words)} \hlopt{%>%} \hlkwd{mutate}\hlstd{(}\hlkwc{MP} \hlstd{=} \hlkwd{sum}\hlstd{(Prob_word_in_doc)}\hlopt{/}\hlstd{N)}
+
+\hlcom{#Calculate Variance (divided by the number of documents)}
+\hlstd{test} \hlkwb{<-} \hlstd{test} \hlopt{%>%} \hlkwd{group_by}\hlstd{(words)} \hlopt{%>%} \hlkwd{mutate}\hlstd{(}\hlkwc{VP} \hlstd{=} \hlkwd{var}\hlstd{(Prob_word_in_doc)}\hlopt{/}\hlstd{N)}
+
+\hlcom{#Calculate SAT}
+\hlcom{#test <- mutate(test, SAT = MP/VP) #Does not work very well}
+\hlcom{#test <- mutate(test, SAT = MP/(VP^0.5))}
+\hlstd{test} \hlkwb{<-} \hlkwd{mutate}\hlstd{(test,} \hlkwc{SAT} \hlstd{= MP}\hlopt{*}\hlstd{(VP}\hlopt{^}\hlnum{0.5}\hlstd{))}
+
+\hlcom{#Calculate Entropy (in two steps)}
+\hlcom{#test <- mutate(test, H_int = -(Prob_word_in_doc * log(Prob_word_in_doc, base = 2)))}
+\hlcom{#test <- test %>% group_by(words) %>% mutate(H2 = sum(H_int))}
+
+\hlcom{#Calculate Entropy}
+\hlstd{test} \hlkwb{<-} \hlstd{test} \hlopt{%>%} \hlkwd{group_by}\hlstd{(words)} \hlopt{%>%} \hlkwd{mutate}\hlstd{(}\hlkwc{H} \hlstd{=} \hlkwd{sum}\hlstd{(}\hlopt{-}\hlstd{Prob_word_in_doc} \hlopt{*} \hlkwd{log}\hlstd{(Prob_word_in_doc,} \hlkwc{base} \hlstd{=} \hlnum{2}\hlstd{)))}
+
+
+\hlstd{test_sum} \hlkwb{<-} \hlstd{test} \hlopt{%>%} \hlkwd{select}\hlstd{(words, MP, VP, SAT, H)}
+
+\hlstd{test_sum} \hlkwb{<-} \hlkwd{distinct}\hlstd{(test_sum)}
+
+\hlkwa{if} \hlstd{(}\hlkwd{dim}\hlstd{(test_sum)[}\hlnum{1}\hlstd{]}\hlopt{!=}\hlstd{(}\hlkwd{length}\hlstd{(}\hlkwd{unique}\hlstd{(test_sum}\hlopt{$}\hlstd{words))))\{}
+  \hlkwd{stop}\hlstd{(}\hlstr{"Something went wrong in the processing"}\hlstd{)}
+\hlstd{\}}
+
+\hlstd{test_sum} \hlkwb{<-} \hlstd{test_sum} \hlopt{%>%} \hlkwd{mutate}\hlstd{(}\hlkwc{SAT}\hlstd{=}\hlkwd{replace}\hlstd{(SAT,} \hlkwd{is.na}\hlstd{(SAT),} \hlnum{0}\hlstd{))}
+
+\hlstd{test_sum} \hlkwb{<-} \hlkwd{as.data.frame}\hlstd{(test_sum)} \hlcom{#Seems to be necessary}
+\hlstd{test_sum} \hlkwb{<-} \hlstd{test_sum} \hlopt{%>%} \hlkwd{arrange}\hlstd{(}\hlkwd{desc}\hlstd{(SAT),} \hlkwd{desc}\hlstd{(MP))} \hlopt{%>%} \hlkwd{mutate}\hlstd{(}\hlkwc{SAT_Rank} \hlstd{=} \hlkwd{row_number}\hlstd{())}
+
+\hlcom{#Some hopeless attempts}
+\hlcom{#test_sum <- as.data.frame(test_sum) #Seems to be necessary}
+\hlcom{#test_sum <- test_sum %>% mutate(SAT_Rank = dense_rank(c(SAT, MP)) )}
+
+\hlcom{#max_SAT_Rank <- max(test_sum$SAT_Rank)}
+\hlcom{#test_sum <- test_sum %>% mutate(SAT2 = case_when(is.na(SAT) ~ dense_rank(desc(MP))))}
+
+\hlcom{#test_sum <- test_sum %>% mutate(SAT3 = dense_rank(interaction(SAT, MP)))}
+
+\hlstd{test_sum} \hlkwb{<-} \hlkwd{as.data.frame}\hlstd{(test_sum)}
+\hlcom{#test_sum <- test_sum %>% mutate(H_Rank = dense_rank(desc(H)))}
+\hlstd{test_sum} \hlkwb{<-} \hlstd{test_sum} \hlopt{%>%} \hlkwd{mutate}\hlstd{(}\hlkwc{H_Rank} \hlstd{=} \hlkwd{row_number}\hlstd{(}\hlkwd{desc}\hlstd{(H)))}
+
+
+\hlstd{test_sum} \hlkwb{<-} \hlstd{test_sum} \hlopt{%>%} \hlkwd{mutate}\hlstd{(}\hlkwc{Tot_Rank} \hlstd{= SAT_Rank}\hlopt{+} \hlstd{H_Rank)}
+
+\hlstd{test_sum} \hlkwb{<-} \hlstd{test_sum} \hlopt{%>%} \hlkwd{arrange}\hlstd{(Tot_Rank)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+A note on ordering:
+
+- decreasing entropy (stopwords have highest entropy)
+- decreasing SAT_Rank (stopwords have high MP and low VP)
+NOTE: in case of the same SAT values, MP is taken into account
+
+
+
+
+
+## Visualisation
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{MP_1q} \hlkwb{<-} \hlkwd{summary}\hlstd{(test_sum}\hlopt{$}\hlstd{MP)[}\hlnum{2}\hlstd{]}
+\hlstd{MP_3q} \hlkwb{<-} \hlkwd{summary}\hlstd{(test_sum}\hlopt{$}\hlstd{MP)[}\hlnum{5}\hlstd{]}
+\hlstd{VP_1q} \hlkwb{<-} \hlkwd{summary}\hlstd{(test_sum}\hlopt{$}\hlstd{VP)[}\hlnum{2}\hlstd{]}
+\hlstd{VP_3q} \hlkwb{<-} \hlkwd{summary}\hlstd{(test_sum}\hlopt{$}\hlstd{VP)[}\hlnum{5}\hlstd{]}
+
+\hlkwd{ggplot}\hlstd{(test_sum,} \hlkwd{aes}\hlstd{(}\hlkwc{x} \hlstd{= MP,} \hlkwc{y} \hlstd{= VP))} \hlopt{+} \hlkwd{geom_point}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{fill} \hlstd{= H))}
+\end{alltt}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: Removed 554 rows containing missing values (geom\_point).}}\end{kframe}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-5-1} 
+\begin{kframe}\begin{alltt}
+\hlkwd{ggplot}\hlstd{(test_sum,} \hlkwd{aes}\hlstd{(}\hlkwc{x} \hlstd{= MP,} \hlkwc{y} \hlstd{= VP))} \hlopt{+} \hlkwd{geom_point}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{col} \hlstd{= H))} \hlopt{+} \hlkwd{ylim}\hlstd{(}\hlkwd{c}\hlstd{(VP_1q, VP_3q))} \hlopt{+} \hlkwd{xlim}\hlstd{(}\hlkwd{c}\hlstd{(MP_1q, MP_3q))}\hlopt{+} \hlkwd{scale_colour_gradientn}\hlstd{(}\hlkwc{colors} \hlstd{=} \hlkwd{terrain.colors}\hlstd{(}\hlnum{100}\hlstd{))}
+\end{alltt}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: Removed 2215 rows containing missing values (geom\_point).}}\end{kframe}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-5-2} 
+\begin{kframe}\begin{alltt}
+\hlkwd{ggplot}\hlstd{(test_sum,} \hlkwd{aes}\hlstd{(}\hlkwc{x} \hlstd{= MP,} \hlkwc{y} \hlstd{= VP))} \hlopt{+} \hlkwd{geom_point}\hlstd{(}\hlkwd{aes}\hlstd{(}\hlkwc{col} \hlstd{= Tot_Rank))} \hlopt{+} \hlkwd{ylim}\hlstd{(}\hlkwd{c}\hlstd{(VP_1q, VP_3q))} \hlopt{+} \hlkwd{xlim}\hlstd{(}\hlkwd{c}\hlstd{(MP_1q, MP_3q))} \hlopt{+} \hlkwd{scale_colour_gradientn}\hlstd{(}\hlkwc{colors} \hlstd{=} \hlkwd{heat.colors}\hlstd{(}\hlnum{5}\hlstd{))}
+\end{alltt}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning: Removed 2215 rows containing missing values (geom\_point).}}\end{kframe}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-5-3} 
+\begin{kframe}\begin{alltt}
+\hlcom{#heat.colors is a palette from grDevices}
+
+
+\hlkwd{ggplot}\hlstd{(test_sum,} \hlkwd{aes}\hlstd{(}\hlkwc{x} \hlstd{= SAT_Rank,} \hlkwc{y} \hlstd{= H_Rank))} \hlopt{+} \hlkwd{geom_point}\hlstd{(}\hlkwc{size} \hlstd{=} \hlnum{0.02}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-5-4} 
+\begin{kframe}\begin{alltt}
+\hlkwd{ggplot}\hlstd{(test_sum,} \hlkwd{aes}\hlstd{(}\hlkwc{x} \hlstd{= SAT_Rank,} \hlkwc{y} \hlstd{= H_Rank))} \hlopt{+} \hlkwd{geom_point}\hlstd{(}\hlkwc{size} \hlstd{=} \hlnum{0.02}\hlstd{,} \hlkwd{aes}\hlstd{(}\hlkwc{col} \hlstd{= MP))} \hlopt{+} \hlkwd{scale_color_gradient}\hlstd{(}\hlkwc{low} \hlstd{=} \hlstr{"green"}\hlstd{,} \hlkwc{high} \hlstd{=} \hlstr{"red"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-5-5} 
+\begin{kframe}\begin{alltt}
+\hlstd{myPalette} \hlkwb{<-} \hlkwd{colorRampPalette}\hlstd{(}\hlkwd{rev}\hlstd{(}\hlkwd{brewer.pal}\hlstd{(}\hlnum{11}\hlstd{,} \hlstr{"Spectral"}\hlstd{)))}
+\hlstd{sc} \hlkwb{<-} \hlkwd{scale_colour_gradientn}\hlstd{(}\hlkwc{colours} \hlstd{=} \hlkwd{myPalette}\hlstd{(}\hlnum{100}\hlstd{),} \hlkwc{limits}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,} \hlnum{0.001}\hlstd{))}
+
+
+\hlkwd{ggplot}\hlstd{(test_sum,} \hlkwd{aes}\hlstd{(}\hlkwc{x} \hlstd{= SAT_Rank,} \hlkwc{y} \hlstd{= H_Rank))} \hlopt{+} \hlkwd{geom_point}\hlstd{(}\hlkwc{size} \hlstd{=} \hlnum{0.02}\hlstd{,} \hlkwd{aes}\hlstd{(}\hlkwc{col} \hlstd{= MP))} \hlopt{+} \hlstd{sc}
+\end{alltt}
+\end{kframe}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-5-6} 
+
+\end{knitrout}
+
+\end{document}

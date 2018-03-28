@@ -1,0 +1,8 @@
+﻿Encoding problems
+
+- Encoding() in base R
+
+- print.listof()
+http://people.fas.harvard.edu/~izahn/posts/reading-data-with-non-native-encoding-in-r/
+print.listof(read_csv("japanese_utf8.csv"), locale = locale(encoding = "UTF-8"))
+(using readr to import csv)

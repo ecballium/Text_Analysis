@@ -1,0 +1,2 @@
+"0","single_counts_df <- single_counts_df[grepl(""[[:alnum:]]"", single_counts_df$Var1),]"
+"0","single_counts_df <- single_counts_df[!grepl(""[0-9]"", single_counts_df$Var1),]"

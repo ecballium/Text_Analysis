@@ -1,0 +1,6 @@
+"0","single_counts_df$HSK[single_counts_df$chars %in% HSK1_characters] <- 1"
+"0","single_counts_df$HSK[single_counts_df$chars %in% HSK2_characters] <- 2"
+"0","single_counts_df$HSK[single_counts_df$chars %in% HSK3_characters] <- 3"
+"0","single_counts_df$HSK[single_counts_df$chars %in% HSK4_characters] <- 4"
+"0","single_counts_df$HSK[single_counts_df$chars %in% HSK5_characters] <- 5"
+"0","single_counts_df$HSK[single_counts_df$chars %in% HSK6_characters] <- 6"

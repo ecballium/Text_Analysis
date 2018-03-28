@@ -1,0 +1,332 @@
+---
+title: "Our Glamorous Times vs HSK"
+output:
+  html_notebook:
+    code_folding: none
+    toc: yes
+    toc_float: yes
+  html_document:
+    toc: yes
+    toc_float: yes
+---
+
+Load the single_counts and words_counts df.
+```{r}
+#single_counts <- readRDS("single_counts.Rda")
+#words_counts <- readRDS("words_counts.Rda")
+```
+
+#Characters
+
+```{r}
+single_counts_df <- as.data.frame(single_counts, stringsAsFactors = FALSE)
+```
+
+
+```{r}
+dim(single_counts_df)
+```
+
+```{r}
+single_counts_df <- single_counts_df[grepl("[[:alnum:]]", single_counts_df$Var1),]
+
+single_counts_df <- single_counts_df[!grepl("[0-9]", single_counts_df$Var1),]
+```
+
+```{r}
+dim(single_counts_df)
+```
+
+
+```{r}
+colnames(single_counts_df) <- c("chars", "Freq")
+```
+
+
+##HSK assignment
+```{r}
+single_counts_df$HSK <- NA
+```
+
+```{r}
+single_counts_df$HSK[single_counts_df$chars %in% HSK1_characters] <- 1
+single_counts_df$HSK[single_counts_df$chars %in% HSK2_characters] <- 2
+single_counts_df$HSK[single_counts_df$chars %in% HSK3_characters] <- 3
+single_counts_df$HSK[single_counts_df$chars %in% HSK4_characters] <- 4
+single_counts_df$HSK[single_counts_df$chars %in% HSK5_characters] <- 5
+single_counts_df$HSK[single_counts_df$chars %in% HSK6_characters] <- 6
+
+
+```
+
+
+```{r}
+single_counts_df$HSK[is.na(single_counts_df$HSK)] <- 7
+```
+
+
+```{r}
+single_counts_df$HSK <- as.factor(single_counts_df$HSK)
+```
+
+
+```{r}
+HSK7_characters_OGT <- single_counts_df$chars[single_counts_df$HSK==7]
+saveRDS(HSK7_characters_OGT, "HSK7_characters_OGT.Rda")
+```
+
+
+##Plots
+
+###Number of characters from HSK levels
+```{r}
+ggplot(single_counts_df, aes(HSK)) + geom_bar() + ggtitle("Character count in HSK levels")
+```
+
+
+```{r}
+ggplot(single_counts_df, aes(Freq, colour = HSK)) + stat_ecdf()
+```
+
+
+###Cumulative frequency of characters within HSK levels
+
+Sanity check:
+```{r}
+sum(single_counts_df$Freq[single_counts_df$HSK==1])
+sum(single_counts_df$Freq[single_counts_df$HSK==2])
+sum(single_counts_df$Freq[single_counts_df$HSK==3])
+sum(single_counts_df$Freq[single_counts_df$HSK==4])
+sum(single_counts_df$Freq[single_counts_df$HSK==5])
+sum(single_counts_df$Freq[single_counts_df$HSK==6])
+
+```
+
+
+
+```{r}
+ggplot(data=single_counts_df, aes(x=HSK, y=Freq)) + geom_bar(stat="identity") + ggtitle("Cumulative frequency in HSK levels")
+```
+
+
+
+###Random attempts
+
+```{r}
+ggplot(single_counts_df, aes(Freq)) + stat_ecdf()
+```
+
+```{r}
+qplot(single_counts_df$Freq, ecdf(single_counts_df$Freq)(single_counts_df$Freq)*length(single_counts_df$Freq), geom='step')
+
+```
+
+
+
+```{r}
+ggplot(single_counts_df, aes(cumsum(Freq))) + geom_bar(aes(fill = HSK))
+```
+
+```{r}
+ggplot(single_counts_df, aes(x=HSK, y=cumsum(Freq))) + geom_bar(aes(fill = HSK))
+```
+
+
+
+
+
+
+#Words (L=2)
+
+
+##Columns for HSK character matches
+```{r}
+words_counts_HSK <- words_counts
+words_counts_HSK$HSK1 <- NA
+words_counts_HSK$HSK2 <- NA
+words_counts_HSK$HSK3 <- NA
+words_counts_HSK$HSK4 <- NA
+words_counts_HSK$HSK5 <- NA
+words_counts_HSK$HSK6 <- NA
+words_counts_HSK$HSK7 <- NA
+```
+
+
+
+```{r}
+
+for (i in seq_along(HSK1_characters)){
+  words_counts_HSK$HSK1[grepl(HSK1_characters[i], words_counts_HSK$words)] <- 1
+}
+
+for (i in seq_along(HSK2_characters)){
+  words_counts_HSK$HSK2[grepl(HSK2_characters[i], words_counts_HSK$words)] <- 1
+}
+
+for (i in seq_along(HSK3_characters)){
+  words_counts_HSK$HSK3[grepl(HSK3_characters[i], words_counts_HSK$words)] <- 1
+}
+
+for (i in seq_along(HSK4_characters)){
+  words_counts_HSK$HSK4[grepl(HSK4_characters[i], words_counts_HSK$words)] <- 1
+}
+
+for (i in seq_along(HSK5_characters)){
+  words_counts_HSK$HSK5[grepl(HSK5_characters[i], words_counts_HSK$words)] <- 1
+}
+
+for (i in seq_along(HSK6_characters)){
+  words_counts_HSK$HSK6[grepl(HSK6_characters[i], words_counts_HSK$words)] <- 1
+}
+
+for (i in seq_along(HSK7_characters_OGT)){
+  words_counts_HSK$HSK7[grepl(HSK7_characters_OGT[i], words_counts_HSK$words)] <- 1
+}
+```
+
+
+##Removing irrelevant rows
+```{r}
+prob_ind <- which(is.na(words_counts_HSK$HSK1)&is.na(words_counts_HSK$HSK2)&is.na(words_counts_HSK$HSK3)&is.na(words_counts_HSK$HSK4)&is.na(words_counts_HSK$HSK5)&is.na(words_counts_HSK$HSK6)&is.na(words_counts_HSK$HSK7))
+```
+
+```{r}
+words_counts_HSK[prob_ind,]
+```
+
+```{r}
+words_counts_HSK <- words_counts_HSK[-prob_ind, ]
+```
+
+
+##Minimum and maximum character HSK
+
+```{r}
+words_counts_HSK$HSK_min <- NA
+
+words_counts_HSK$HSK_max <- NA
+```
+
+
+```{r}
+words_counts_HSK$HSK_min <- 7
+words_counts_HSK$HSK_min[!is.na(words_counts_HSK$HSK6)] <- 6
+words_counts_HSK$HSK_min[!is.na(words_counts_HSK$HSK5)] <- 5
+words_counts_HSK$HSK_min[!is.na(words_counts_HSK$HSK4)] <- 4
+words_counts_HSK$HSK_min[!is.na(words_counts_HSK$HSK3)] <- 3
+words_counts_HSK$HSK_min[!is.na(words_counts_HSK$HSK2)] <- 2
+words_counts_HSK$HSK_min[!is.na(words_counts_HSK$HSK1)] <- 1
+
+```
+
+
+
+```{r}
+words_counts_HSK$HSK_max[!is.na(words_counts_HSK$HSK1)] <- 1
+words_counts_HSK$HSK_max[!is.na(words_counts_HSK$HSK2)] <- 2
+words_counts_HSK$HSK_max[!is.na(words_counts_HSK$HSK3)] <- 3
+words_counts_HSK$HSK_max[!is.na(words_counts_HSK$HSK4)] <- 4
+words_counts_HSK$HSK_max[!is.na(words_counts_HSK$HSK5)] <- 5
+words_counts_HSK$HSK_max[!is.na(words_counts_HSK$HSK6)] <- 6
+words_counts_HSK$HSK_max[!is.na(words_counts_HSK$HSK7)] <- 7
+
+```
+
+
+```{r}
+words_counts_HSK$HSK_max <- as.factor(words_counts_HSK$HSK_max)
+words_counts_HSK$HSK_min <- as.factor(words_counts_HSK$HSK_min)
+```
+
+```{r}
+saveRDS(words_counts_HSK, "words_counts_HSK_corr.Rda")
+```
+
+
+
+##Plots
+
+
+###Random attempts
+```{r}
+#library(ggplot2)
+#ggplot(words_counts_HSK, aes(x =words, y = Freq)) + geom_bar(stat="identity", width = .1, fill = "tomato3") #Seems that this is a total failure
+```
+
+
+```{r}
+ggplot(words_counts_HSK, aes(HSK_max, Freq)) + geom_boxplot() + scale_y_log10()
+```
+
+```{r}
+ggplot(words_counts_HSK, aes(HSK_max, Freq)) + geom_boxplot() + scale_y_log10() + geom_dotplot(aes(fill=HSK_min), dotsize = 0.05)
+```
+
+
+
+```{r}
+ggplot(words_counts_HSK, aes(HSK_max, Freq)) + geom_violin()
+```
+
+
+
+###HSK min
+
+####By count
+```{r}
+ggplot(words_counts_HSK, aes(HSK_min)) + geom_bar()
+```
+
+
+```{r}
+ggplot(words_counts_HSK, aes(HSK_min)) + geom_bar(aes(fill = HSK_max))
+```
+
+
+
+####By frequency
+```{r}
+ggplot(data=words_counts_HSK, aes(x=HSK_min, y=Freq, fill = HSK_max)) + geom_bar(stat="identity") + ggtitle("Cumulative word frequency in HSK levels")
+```
+
+
+###HSK max
+
+####By count
+```{r}
+ggplot(words_counts_HSK, aes(HSK_max)) + geom_bar()
+```
+
+
+
+
+
+
+
+
+```{r}
+ggplot(words_counts_HSK, aes(HSK_max)) + geom_bar(aes(fill = HSK_min))
+```
+
+
+####By frequency
+```{r}
+ggplot(data=words_counts_HSK, aes(x=HSK_max, y=Freq, fill = HSK_min)) + geom_bar(stat="identity") + ggtitle("Cumulative word frequency in HSK levels")
+```
+
+
+###Other
+
+
+```{r}
+ggplot(words_counts_HSK, aes(Freq)) + geom_density(aes(fill = HSK_max)) + xlim(0, 10)
+```
+
+
+
+```{r}
+ggplot(words_counts_HSK, aes(x=words, y=Freq)) + geom_bar(stat = "identity", aes(fill = HSK_max)) + ylim(300,3000)
+```
+
+
+

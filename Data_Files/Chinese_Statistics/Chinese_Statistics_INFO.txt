@@ -1,0 +1,61 @@
+﻿Chinese Statistics
+
+FREQUENCY LISTS
+
+Text files from: http://lingua.mtsu.edu/chinese-computing/statistics/index.html
+
+RAW - the whole webpage copied into a text file
+TAB - only tab-delimited list (no header and no summary at the end)
+
+Modern Chinese Character Frequencies:
+A: With cumulative frequencies (in percentiles)
+- General
+- IM - imaginative texts
+- IN - informative texts
+B: With character frequency
+- ChangYongZiBiao - a list of 3500 common characters; frequencies obtained from Modern Chinese Corpus (imaginative and informative)
+
+
+
+CHARACTER LISTS IN MODERN CHINESE
+[Issued by the Chinese government]
+
+List of Commonly Used Characters in Modern Chinese	现代汉语通用字表	7,000	1988
+List of Frequently Used Characters in Modern Chinese	现代汉语常用字表	3,300 (sublist)	1988
+
+Table of General Standard Chinese Characters	通用规范汉字表	8,105	2013
+
+A nice resource on the new (2013) list: http://hanzidb.org/character-list/general-standard
+
+
+
+MODERN CHINESE CORPUS
+语料库在线
+
+Main page
+http://www.aihanyu.org/cncorpus/index.aspx
+
+Download page
+http://www.aihanyu.org/cncorpus/resources.aspx
+
+
+
+OTHER RESOURCES
+
+Chinese vocabulary profiler
+http://lingua.mtsu.edu/chinese-computing/vp/index.php
+
+References to Chinese vocabulary profiler
+http://lingua.mtsu.edu/chinese-computing/vp/references.php
+
+A resource with links to other lists (mostly for learner use):
+http://www.learnchineseok.com/2012/03/most-common-chinese-characters-words.html
+
+An article about collecting Chinese text from film subtitles (also includes info on other existing resources)
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2880003/
+
+
+
+
+
+

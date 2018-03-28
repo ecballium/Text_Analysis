@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1516457932368.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "6A8AE4F",
+    "lastKnownWriteTime" : 1516837417,
+    "last_content_update" : -2147483648,
+    "path" : "~/Medycyna/Clinical School/Word count/words.R",
+    "project_path" : "words.R",
+    "properties" : {
+        "cursorPosition" : "5,31",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

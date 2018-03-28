@@ -1,0 +1,18 @@
+"0","#A <- readLines(con <- file(""test_eng_utf.txt"", encoding = ""UTF-8""))"
+"0","#C <- readLines(con <- file(""test_ch_utf.txt"", encoding = ""UTF-8""))"
+"0","#C1 <- readLines(con <- file(""ch1.txt"", encoding = ""UTF-8""))"
+"0","T <- readLines(con <- file(""ogt_utf.txt"", encoding = ""UTF-8""))"
+"2","Warning messages:
+"
+"2","1: "
+"2","In scan(file = file, what = what, sep = sep, quote = quote, dec = dec,  :"
+"2","
+ "
+"2"," EOF within quoted string
+"
+"2","2: "
+"2","In scan(file = file, what = what, sep = sep, quote = quote, dec = dec,  :"
+"2","
+ "
+"2"," EOF within quoted string
+"

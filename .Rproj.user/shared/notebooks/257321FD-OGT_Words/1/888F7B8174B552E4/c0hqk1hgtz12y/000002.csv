@@ -1,0 +1,8 @@
+"0","weliminate <- function(elim, x){"
+"0","  #To include some statements to prevent the possibility of input (x) being a matrix/df"
+"0","  y <- replicate(length(x), TRUE)"
+"0","  for (e in seq_along(elim)){"
+"0","    y <- y & !grepl(elim[e], x)"
+"0","  }"
+"0","  return(y)"
+"0","}"

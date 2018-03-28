@@ -1,0 +1,165 @@
+﻿- word clouds
+- Chinese stopwords
+
+http://www.baiduguide.com/baidu-stopwords/
+stopwords source in st3
+
+Other sources
+https://www.ranks.nl/stopwords/chinese-stopwords
+https://gist.github.com/dreampuf/5548203
+https://github.com/stopwords-iso/stopwords-zh/blob/master/stopwords-zh.txt
+
+
+GOOD STUFF
+https://www.kdnuggets.com/2018/03/5-things-before-rushing-data-science.html
+https://www.opensemanticsearch.org/doc/data_enrichment [maybe]
+https://blog.biolab.si/tag/word-enrichment/ some ideas for analysis
+
+https://cran.r-project.org/web/views/NaturalLanguageProcessing.html Collection of resources in R [GOLD]
+
+http://www.sthda.com/english/wiki/text-mining-and-word-cloud-fundamentals-in-r-5-simple-steps-you-should-know [useful] Describes text cleaning using 'tm' and word clouds
+
+http://www.sthda.com/english/wiki/word-cloud-generator-in-r-one-killer-function-to-do-everything-you-need Reduces everything to one function call
+
+https://www.r-bloggers.com/word-clouds-using-text-mining/ A nice short example of doing the same (from text to wordcloud and associated tm calls)
+
+https://www.r-bloggers.com/word-cloud-in-r/ Another short example
+
+wordcloud(words = t$words, freq = t$Freq, scale = c(4,.5), max.words = 20, random.order = FALSE, rot.per = 0, colors = brewer.pal(8, "Dark2"))
+
+
+
+REPLACING VALUES USING DPLYR
+http://dannyjnwong.github.io/Replacing-values-in-a-column-with-dplyr-using-logical-statements/
+dat <- dat %>% mutate(col1 = replace(col1, which(is.na(col1) & col2 == "Tom"), 0))
+
+https://stackoverflow.com/questions/28013850/change-value-of-variable-with-dplyr
+mtcars %>%
+     mutate(mpg=replace(mpg, cyl==4, NA)) %>%
+     as.data.frame()
+
+
+https://stackoverflow.com/questions/45739880/r-assign-characters-to-a-column-according-to-values
+dt2 <- dt %>%
+  mutate(color = case_when(
+    value == max(value) ~ "red",
+    value == min(value) ~ "green",
+    TRUE                ~ "blue"
+  ))
+
+dt2 <- dt %>%
+  mutate(Rank = dense_rank(value)) %>%
+  mutate(color = case_when(
+    Rank == 1 ~ "green",
+    Rank == 2 ~ "blue",
+    Rank == 3 ~ "Red"
+  )) %>%
+  select(-Rank)
+
+https://stackoverflow.com/questions/38804880/dealing-with-ties-using-rank-r?rq=1 On problem of ties in data (they suggest to use order which breaks the ties)
+
+https://stackoverflow.com/questions/34967837/rank-variable-by-group-dplyr/34968528 On ranking 
+
+DPLYR VS DATA.TABLE
+https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly?rq=1
+
+
+MULTI CHAPTER DOCUMENT USING MARKDOWN
+http://dannyjnwong.github.io/Writing-a-multi-chapter-document-with-R-Markdown/
+https://stackoverflow.com/questions/25824795/how-to-combine-two-rmarkdown-rmd-files-into-a-single-output
+
+
+---  
+title: My Report  
+output: 
+  pdf_document:
+    toc: yes 
+---
+
+```{r child = 'chapter1.Rmd'}
+```
+
+```{r child = 'chapter2.Rmd'}
+```
+
+
+# Chapter 1
+
+This is chapter 1.
+
+```{r}
+1
+```
+
+
+# Chapter 2
+
+This is chapter 2.
+
+```{r}
+2
+```
+
+
+rmarkdown::render('report.Rmd')
+
+
+
+https://stackoverflow.com/questions/49522274/r-regex-to-split-string-by-character-and-retaining-content-inside-square-bracke/49523284#49523284
+First answered SO question
+Based on:
+https://stackoverflow.com/questions/15573887/split-string-with-regex
+
+
+COLOURS
+http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/
+For continuous data:
+ggplot(df, aes(x=xval, y=yval, colour=yval)) + geom_point() + 
+    scale_colour_gradientn(colours=rainbow(4))
+
+
+https://stackoverflow.com/questions/21537782/how-to-set-fixed-continuous-colour-values-in-ggplot2 [GOLD]
+
+myPalette <- colorRampPalette(rev(brewer.pal(11, "Spectral")))
+sc <- scale_colour_gradientn(colours = myPalette(100), limits=c(1, 8))
+
+plot + sc
+
+
+
+
+- word probability
+- word variance
+- word statistical score
+- word entropy
+
+
+4-2-1-3 (SAT)
+
+class	MP	VP	SAT	H
+
+stops	0.05	5x10-5	1.3	0.54
+
+unis	2x10-6	3x10-11	600	0.0003
+
+low entropy - quite predictable
+
+Here: low entropy - probability is stable
+
+Consider the distribution of each word
+over documents as an information channel. The high
+the entropy of this information channel is, the less
+random the character would be in all documents.
+Thus we measure the information value of the word
+wj by its entropy.
+
+
+ephedra
+cryptomeria
+datura
+taxus
+laburnum
+ulex
+stellaria
+
+S. Karg-Elert, Op. 65 No. 59: Nun danket alle Gott

@@ -1,0 +1,1 @@
+"0","ggplot(words_counts_HSK, aes(HSK_min)) + geom_bar()"

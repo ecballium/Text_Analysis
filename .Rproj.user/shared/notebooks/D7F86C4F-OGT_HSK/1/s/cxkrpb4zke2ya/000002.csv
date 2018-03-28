@@ -1,0 +1,1 @@
+"0","words_counts_HSK <- words_counts_HSK[-prob_ind, ]"

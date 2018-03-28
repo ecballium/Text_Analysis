@@ -1,0 +1,2 @@
+"0","words_counts_HSK$HSK_max <- as.factor(words_counts_HSK$HSK_max)"
+"0","words_counts_HSK$HSK_min <- as.factor(words_counts_HSK$HSK_min)"

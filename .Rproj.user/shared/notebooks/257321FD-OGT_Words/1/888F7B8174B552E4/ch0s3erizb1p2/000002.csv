@@ -1,0 +1,4 @@
+"0","top100 <- as.data.frame(single_counts[1:100], stringsAsFactors = FALSE)"
+"0","colnames(top100) <- c(""words"", ""Freq"")"
+"0","top100 <- top100$words"
+"0","words_counts_no100 <- words_counts[weliminate(top100, words_counts$words),]"

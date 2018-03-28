@@ -1,0 +1,8 @@
+"0","```r
+words_counts_HSK$HSK_min[!is.na(words_counts_HSK$HSK6)] <- 6
+words_counts_HSK$HSK_min[!is.na(words_counts_HSK$HSK5)] <- 5
+words_counts_HSK$HSK_min[!is.na(words_counts_HSK$HSK4)] <- 4
+words_counts_HSK$HSK_min[!is.na(words_counts_HSK$HSK3)] <- 3
+words_counts_HSK$HSK_min[!is.na(words_counts_HSK$HSK2)] <- 2
+words_counts_HSK$HSK_min[!is.na(words_counts_HSK$HSK1)] <- 1
+```"

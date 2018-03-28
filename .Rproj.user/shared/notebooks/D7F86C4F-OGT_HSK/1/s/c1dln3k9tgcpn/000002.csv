@@ -1,0 +1,7 @@
+"0","words_counts_HSK$HSK_max[!is.na(words_counts_HSK$HSK1)] <- 1"
+"0","words_counts_HSK$HSK_max[!is.na(words_counts_HSK$HSK2)] <- 2"
+"0","words_counts_HSK$HSK_max[!is.na(words_counts_HSK$HSK3)] <- 3"
+"0","words_counts_HSK$HSK_max[!is.na(words_counts_HSK$HSK4)] <- 4"
+"0","words_counts_HSK$HSK_max[!is.na(words_counts_HSK$HSK5)] <- 5"
+"0","words_counts_HSK$HSK_max[!is.na(words_counts_HSK$HSK6)] <- 6"
+"0","words_counts_HSK$HSK_max[!is.na(words_counts_HSK$HSK7)] <- 7"

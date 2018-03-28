@@ -1,0 +1,2 @@
+"0","HSK7_characters_OGT <- single_counts_df$chars[single_counts_df$HSK==7]"
+"0","saveRDS(HSK7_characters_OGT, ""HSK7_characters_OGT.Rda"")"
