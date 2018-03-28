@@ -2,9 +2,6 @@
 "0","names(words) <- NULL"
 "0","words <- unlist(words)"
 "0","words_counts <- table(words)"
-"2","Warning:"
-"2"," closing unused connection 8 (C:/Users/Ania/Documents/Medycyna/Clinical School/Word count/ogt_utf.txt)
-"
 "0","words_counts <- words_counts[order(words_counts, decreasing = TRUE)]"
 "0","words_counts <- as.data.frame(words_counts)"
 "0","#Remove unwanted entries"

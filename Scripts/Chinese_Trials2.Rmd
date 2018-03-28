@@ -1,0 +1,12 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+All works here:
+
+他喜欢吃炒面
+
+```{r}
+print("他喜欢吃炒面")
+```
+

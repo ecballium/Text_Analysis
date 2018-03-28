@@ -1,2 +1,0 @@
-"0","#library(ggplot2)"
-"0","qplot(y=words_counts$Freq, x=1:length(words_counts$Freq))"

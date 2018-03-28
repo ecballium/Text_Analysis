@@ -1,2 +1,0 @@
-"0","single_counts <- table(unlist(strsplit(T, split="""")))"
-"0","single_counts <- single_counts[order(single_counts, decreasing = TRUE)]"

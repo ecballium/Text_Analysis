@@ -1,1 +1,0 @@
-"0","ggplot(words_counts, aes(x = log(words_counts$Freq))) + geom_freqpoly() #Rather dodgy approach with log (should be log counts, not log frequency)"

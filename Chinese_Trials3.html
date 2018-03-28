@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<title></title>
+<title>Some document</title>
 
 <script type="text/javascript">
 window.onload = function() {
@@ -201,52 +201,25 @@ hr {
 </head>
 
 <body>
-<p>Tested approaches (none of these worked):</p>
+<h1>Some document</h1>
 
-<ul>
-<li>setting locale (either within script or in .Rprofile)</li>
-<li>saving file with UTF-8 encoding</li>
-</ul>
+<p>Chinese characters are not displayed correctly here:</p>
 
-<p>Failure occured with the following methods for output generation:</p>
+<p>Some text. </p>
 
-<ul>
-<li>knitr::spin()</li>
-<li>rmarkdown::render()</li>
-</ul>
+<p>杩樻湁姹夊瓧銆<U+383C><U+3E32></p>
 
-<p>鐨勪竴浜嗘槸浠<U+393C><U+3E36></p>
-
-<pre><code class="r">Sys.setlocale(locale = &quot;Chinese&quot;) #Choose Chinese
+<pre><code class="r">print(&quot;Some text&quot;)
 </code></pre>
 
-<pre><code>## [1] &quot;LC_COLLATE=Chinese (Simplified)_People&#39;s Republic of China.936;LC_CTYPE=Chinese (Simplified)_People&#39;s Republic of China.936;LC_MONETARY=Chinese (Simplified)_People&#39;s Republic of China.936;LC_NUMERIC=C;LC_TIME=Chinese (Simplified)_People&#39;s Republic of China.936&quot;
+<pre><code>## [1] &quot;Some text&quot;
 </code></pre>
 
-<pre><code class="r">#library(shiny)
-#print(&quot;鐨勪竴浜嗘槸浠&lt;U+393C&gt;&lt;U+3E36&gt;&quot;)
-#print.listof(&quot;鐨勪竴浜嗘槸浠&lt;U+393C&gt;&lt;U+3E36&gt;&quot;)
-#x &lt;- as.character(&quot;鐨勪竴浜嗘槸浠&lt;U+393C&gt;&lt;U+3E36&gt;&quot;, encoding = &quot;UTF-8&quot;)
-#print(x)
-
-
-t &lt;- readLines(&quot;C:/Users/Ania/Documents/Medycyna/Clinical School/Word count/Data_Files/Sample_Text_Files/test_ch_utf.txt&quot;, encoding = &quot;UTF-8&quot;)
+<pre><code class="r">print(&quot;浠栧枩娆㈠悆鐐掗潰&quot;)
 </code></pre>
 
-<pre><code>## Warning in readLines(&quot;C:/Users/Ania/Documents/Medycyna/Clinical School/Word
-## count/Data_Files/Sample_Text_Files/test_ch_utf.txt&quot;, : incomplete final
-## line found on &#39;C:/Users/Ania/Documents/Medycyna/Clinical School/Word count/
-## Data_Files/Sample_Text_Files/test_ch_utf.txt&#39;
+<pre><code>## [1] &quot;&lt;U+00E4&gt;&lt;U+00BB&gt;–&lt;U+013A&gt;–&lt;U+015B&gt;&lt;U+0107&gt;&lt;U+00AC&gt;&lt;U+02D8&gt;&lt;U+013A&gt;&lt;U+0090&gt;&lt;U+0083&gt;&lt;U+00E7&gt;&lt;U+201A&gt;’é&lt;U+0165&gt;&lt;U+02D8&gt;&quot;
 </code></pre>
-
-<pre><code class="r">#print(t)
-#t
-
-#print.listof(t, locale = locale(encoding = &quot;UTF-8&quot;))
-renderPrint(t)
-</code></pre>
-
-<p>&lt;!&ndash;html_preserve&ndash;&gt;<pre id="outf8fc22af34bd1288" class="shiny-text-output noplaceholder"></pre>&lt;!&ndash;/html_preserve&ndash;&gt;</p>
 
 </body>
 
