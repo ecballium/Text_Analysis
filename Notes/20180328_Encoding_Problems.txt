@@ -6,3 +6,28 @@
 http://people.fas.harvard.edu/~izahn/posts/reading-data-with-non-native-encoding-in-r/
 print.listof(read_csv("japanese_utf8.csv"), locale = locale(encoding = "UTF-8"))
 (using readr to import csv)
+
+https://stackoverflow.com/questions/43727114/knitr-and-knit-print-with-html-output-dispatch-not-working
+https://cran.r-project.org/web/packages/radiant.data/index.html
+Shiny to generate reports...
+
+- changing locale
+file.edit('.Rprofile')
+Sys.setlocale(category = "LC_ALL", locale = "chs") #Within .Rprofile
+https://stackoverflow.com/questions/48454765/how-to-display-chinese-charatcers-in-rmarkdown-shiny
+
+- save file with encoding
+https://stackoverflow.com/questions/48454765/how-to-display-chinese-charatcers-in-rmarkdown-shiny
+
+
+https://tomizonor.wordpress.com/2013/04/17/file-utf8-windows/ [TBR] Some info
+
+
+
+ENCODING WITH TM
+https://stackoverflow.com/questions/37278333/set-encoding-for-reading-text-files-into-tm-corpora?rq=1
+
+files <- DirSource(directory = "C:/Users/john/Documents/",encoding ="UTF-8" )
+mycorpus<- VCorpus(x=files)
+
+https://stackoverflow.com/questions/24920396/r-corpus-is-messing-up-my-utf-8-encoded-text Same approach

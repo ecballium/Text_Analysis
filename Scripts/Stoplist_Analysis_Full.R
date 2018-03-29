@@ -67,6 +67,10 @@ counts_df <- counts_df[weliminate(remove_char_groups, counts_df$words),]
 
 test <- counts_df
 
+ggplot(subset(counts_df, freq>180), aes(x = reorder(words, -freq), y = freq)) +
+  geom_bar(stat = "identity") + 
+  theme(axis.text.x=element_text(angle=45, hjust=1)) + coord_fixed(ratio = 1/600 )
+ggsave(filename = "counts_df_above140_freq.png", height = 8, width = 16)
 #'
 #'
 #'

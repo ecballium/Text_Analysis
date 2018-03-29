@@ -73,6 +73,20 @@ for (i in 1:N){
 
 
 remove_char_groups <- c("[[:blank:]]","[[:punct:]]", "[[:digit:]]", "[A-z]")
+weliminate_cont(remove_char_groups, counts_df$words[1:100])
+```
+
+```
+##  [1] "¶Ã<U+00C4>" "<U+0147><U+00BB>" "®¢<U+00CB>" "<U+0118><U+00C7>" "<U+00CB><U+0171>" "<U+02DB><U+00BB>" "®¢<U+00D6>" "<U+00C7><U+0142>" "<U+00D4>®≤" "<U+00CB>y" "®Æ<U+0110>" "<U+010C><U+00CB>" "<U+00B8><U+00F6>" "<U+0150>a"
+## [15] "°¡<U+0139>" "<U+0154>°‰" "®¶<U+010E>" "¶Ã<U+02DD>" "<U+013E>®™" "<U+017C>°‰" "<U+0147><U+02DB>" "°‰®Æ" "<U+010E><U+00C2>" "<U+00CE><U+0147>" "<U+00BB><U+0105>" "<U+0154><U+010F>" "<U+00D6><U+00AE>" "<U+010C><U+00BB>"
+## [29] "¶Ã<U+0158>" "®™°§" "<U+00C4><U+0103>" "<U+0102>°‰" "¶Ã<U+0102>" "<U+0118><U+00D6>" "<U+00BB>®¢" "<U+0118>°¿" "<U+0154>°¬" "¶Ã®≤" "<U+00CB>¶Ã" "<U+0102><U+00BB>" "<U+00D6><U+00C2>" "<U+0105>y"
+## [43] "<U+00C4><U+00C7>" "<U+013E>-" "<U+0142><U+010E>" "<U+00B6><U+013D>" "<U+0147><U+015E>" "°¡<U+00DF>" "<U+0105><U+00CB>" "<U+017C><U+015E>" "<U+015F>®Æ" "<U+0142><U+00F6>" "<U+00B6><U+0159>" "<U+015F>®π" "<U+015F><U+0102>" "<U+0102><U+00C7>"
+## [57] "<U+00C7>°„" "<U+0143>®Æ" "°¡®Æ" "®ß®ß" "<U+010C><U+0104>" "<U+0110>|" "¶Ã<U+0103>" "®Æ<U+00D6>" "<U+0150><U+00C2>" "°‰<U+010F>" "°„<U+00AE>" "<U+0102><U+0139>" "<U+0102><U+0107>" "<U+0106><U+0111>"
+## [71] "<U+00B6><U+00D4>" "<U+0154>®™" "®¶®™" "<U+0142>¶Ã" "®¶<U+016F>" "<U+00CE><U+015E>" "<U+0110><U+00C4>" "°§<U+02D8>" "<U+013E><U+02DB>" "®¶<U+00AB>" "<U+0105><U+00AB>" "<U+0118><U+00C2>" "°¡<U+00D4>" "¶Ã<U+0154>"
+## [85] "<U+0143><U+0170>" "<U+0147>a" "<U+00D6><U+00BB>" "<U+00BB>°„" "<U+010E><U+00EB>" "<U+0147><U+0143>"
+```
+
+```r
 print.listof(weliminate_cont(remove_char_groups, counts_df$words[1:100]), locale = locale(encoding = "UTF-8"))
 ```
 
@@ -349,9 +363,27 @@ print.listof(weliminate_cont(remove_char_groups, counts_df$words[1:100]), locale
 ```
 
 ```r
+print("ó˙í†í¶ônìç")
+```
+
+```
+## [1] "°™®≤°Ø<U+00A0>°Ø|<U+2122>n°∞<U+0164>"
+```
+
+```r
 counts_df <- counts_df[weliminate(remove_char_groups, counts_df$words),]
 
 test <- counts_df
+
+ggplot(subset(counts_df, freq>180), aes(x = reorder(words, -freq), y = freq)) +
+  geom_bar(stat = "identity") + 
+  theme(axis.text.x=element_text(angle=45, hjust=1)) + coord_fixed(ratio = 1/600 )
+```
+
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png)
+
+```r
+ggsave(filename = "counts_df_above140_freq.png", height = 8, width = 16)
 ```
 
 
