@@ -7,6 +7,7 @@
 library(dplyr)
 library(ggplot2)
 library(RColorBrewer)
+library(wordcloud)
 
 Sys.setlocale(locale = "Chinese") #Choose Chinese
 
@@ -25,7 +26,7 @@ source("C:/Users/Ania/Documents/Medycyna/Clinical School/Word count/Scripts/Help
 #                   freq = c(5, 3, 4, 2, 3, 8, 2), 
 #                   doc = c(rep("i", 3), rep("ii", 2), rep("iii", 2)))
 
-
+#Improved example
 #test <- data.frame(words = c("a", "b", "c", "e", "a", "b", "b", "d"),
 #                   freq = c(3, 5, 4, 1, 2, 3, 8, 2), 
 #                   doc = c(rep("i", 4), rep("ii", 2), rep("iii", 2)))
@@ -38,7 +39,7 @@ source("C:/Users/Ania/Documents/Medycyna/Clinical School/Word count/Scripts/Help
 #+
 
 
-T <- readLines(con <- file("C:/Users/Ania/Documents/Medycyna/Clinical School/Word count/ogt_utf.txt", encoding = "UTF-8"))
+T <- readLines(con <- file("C:/Users/Ania/Documents/Medycyna/Clinical School/Word count/ogt_utf_cr.txt", encoding = "UTF-8"))
 #T <- readLines(con <- file("ogt_utf.txt", encoding = "UTF-8"))
 
 N <- 10
@@ -67,10 +68,6 @@ counts_df <- counts_df[weliminate(remove_char_groups, counts_df$words),]
 
 test <- counts_df
 
-ggplot(subset(counts_df, freq>180), aes(x = reorder(words, -freq), y = freq)) +
-  geom_bar(stat = "identity") + 
-  theme(axis.text.x=element_text(angle=45, hjust=1)) + coord_fixed(ratio = 1/600 )
-ggsave(filename = "counts_df_above140_freq.png", height = 8, width = 16)
 #'
 #'
 #'
@@ -80,6 +77,13 @@ ggsave(filename = "counts_df_above140_freq.png", height = 8, width = 16)
 
 #Calculate Doc_size (sum freq within a doc)
 test <- test %>% group_by(doc) %>% mutate(Doc_size = sum(freq))
+
+#Calculate Tot_freq (sum freq within a word)
+test <- test %>% group_by(words) %>% mutate(Tot_freq = sum(freq))
+
+#Calculate Num_doc and Perc_doc (The percentage of docs a word appears in)
+test <- test %>% group_by(words) %>% mutate(Num_doc = n())
+test <- test %>% group_by(words) %>% mutate(Perc_doc = n()/N )
 
 #Calculate Prob_word_in_doc (freq/Doc_size)
 test <- test %>% group_by(words) %>% mutate(Prob_word_in_doc = freq/Doc_size)
@@ -103,7 +107,7 @@ test <- mutate(test, SAT = MP*(VP^0.5))
 test <- test %>% group_by(words) %>% mutate(H = sum(-Prob_word_in_doc * log(Prob_word_in_doc, base = 2)))
 
 
-test_sum <- test %>% select(words, MP, VP, SAT, H)
+test_sum <- test %>% select(words, Tot_freq, Perc_doc, MP, VP, SAT, H)
 
 test_sum <- distinct(test_sum)
 
@@ -147,10 +151,35 @@ test_sum <- test_sum %>% arrange(Tot_Rank)
 #' ## Visualisation
 #' 
 #+
+
+#No longer needed atm
+#TF_mean <- summary(test_sum$Tot_freq)[4]
+#TF_3q <- summary(test_sum$Tot_freq)[5]
+#TF_max <- summary(test_sum$Tot_freq)[6]
+
 MP_1q <- summary(test_sum$MP)[2]
 MP_3q <- summary(test_sum$MP)[5]
 VP_1q <- summary(test_sum$VP)[2]
 VP_3q <- summary(test_sum$VP)[5]
+
+test_sum_top50freq <- test_sum %>% arrange(desc(Tot_freq))
+test_sum_top50freq <- test_sum_top50freq[1:50,]
+
+
+
+ggplot(test_sum_top50freq, aes(x = reorder(words, -Tot_freq), y = Tot_freq)) + geom_bar(stat = "identity") + theme(axis.text.x=element_text(angle=45, hjust=1)) + coord_fixed(ratio = 1/600 )
+
+ggsave(filename = "counts_df_top50freq.png", height = 8, width = 16)
+
+#Other valid plots
+
+#ggplot(test_sum, aes(x = reorder(words, -Tot_freq), y = Tot_freq)) + geom_bar(stat = "identity") + theme(axis.text.x=element_text(angle=45, hjust=1))
+
+#ggplot(subset(test_sum, Tot_freq >400), aes(x = reorder(words, -Tot_freq), y = Tot_freq)) + geom_bar(stat = "identity") + theme(axis.text.x=element_text(angle=45, hjust=1))
+
+#ggplot(subset(test_sum, Tot_freq >240), aes(x = reorder(words, -Tot_freq), y = Tot_freq)) + geom_bar(stat = "identity") + theme(axis.text.x=element_text(angle=45, hjust=1)) + coord_fixed(ratio = 1/600 )
+
+
 
 ggplot(test_sum, aes(x = MP, y = VP)) + geom_point(aes(fill = H))
 
@@ -171,3 +200,6 @@ sc <- scale_colour_gradientn(colours = myPalette(100), limits=c(0, 0.001))
 
 ggplot(test_sum, aes(x = SAT_Rank, y = H_Rank)) + geom_point(size = 0.02, aes(col = MP)) + sc
 
+wordcloud(test_sum$words, test_sum$Tot_freq, max.words = 150, random.order = F)
+
+wordcloud(test_sum$words, test_sum$Tot_freq, max.words = 350, random.order = F, scale = c(4, 0.1))

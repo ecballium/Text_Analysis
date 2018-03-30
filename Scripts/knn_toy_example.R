@@ -1,3 +1,5 @@
+
+counts_df <- readRDS("C:/Users/Ania/Documents/Medycyna/Clinical School/Word count/Data_files/counts_df_knn.Rda")
 temp <- counts_df %>% filter(freq >65)
 x <- "的一了他她是个不这"
 x <- unlist(strsplit(x, split = ""))

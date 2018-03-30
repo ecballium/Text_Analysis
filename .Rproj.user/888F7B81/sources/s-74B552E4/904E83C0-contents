@@ -1,1 +1,0 @@
-Sys.setlocale(, 'Chinese')
